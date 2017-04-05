@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>面向对象（封装）</title>
+</head>
+<body>
+	
+	<script type="text/javascript">
+	//原始模式(一是如果多生成几个实例，写起来就非常麻烦;；二是实例与原型之间，没有任何办法，可以看出有什么联系;)
+//	var person = {
+//		name : '',
+//		age : ''
+//	}
+	//下面是两个实例
+	var person1 = {};
+	person1.name = 'zhang';
+	person1.age = 6;
+	var person2 = {};
+	person2.name = 'wang';
+	person2.age = 8;
+	//原始模式的改进
+	//(这种方法的问题依然是，person1和person2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。)
+	function person(name,age){
+		return{
+			name: name,
+			age : age
+		}
+	}
+	//生成实例
+	var person1 = person('zhang',6);
+	var person2 = person('wang',7);
+	//够造函数的模式
+	function person(name,age){
+		this.name = name;
+		this.age = age;
+	}
+	//生成实例；
+	var person1 = new person('zhang',6);
+	var person2 = new person('wang',7);
+	//这个时候person1 和 person2 自动含有一个constructor 属性，指向其够造函数；
+	console.log(person1.constructor == person);
+	console.log(person2.constructor == person);
+	//js还提供一个instanceof 运算符，验证原型对象与实例对象之间的关系；
+	console.log(person1 instanceof person);
+	console.log(person2 instanceof person);
+	
+	//构造函数模式存在浪费内存的问题；
+//	function Cat(name,color){
+//　　　　this.name = name;
+//　　　　this.color = color;
+//　　　　this.type = "猫科动物";
+//　　　　this.eat = function(){console.log('吃老鼠')};
+//　　}
+//	var cat1 = new Cat('大毛','黄色');   //这里new 关键字 开辟新的内存；
+//	var cat2 = new Cat('二毛','黑色');	// 这里new 关键字 开辟新的内存；
+//	console.log(cat1.type);
+//	cat1.eat();
+//	console.log(cat1.eat == cat2.eat); //false 
+//	console.log(cat1.eat);
+//	console.log(cat2.eat);
+//有一个很大的弊端,type属性和eat()方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存;
+	
+	var o = {
+		speak: function(){
+			console.log(1);
+		}
+	};
+	var b = {
+		speak: function(){
+			console.log(1);
+		}
+	};
+	console.log(o.speak == b.speak);
+	
+	//Prototype模式
+	function Cat(name,color){
+		this.name = name;
+		this.color = color;
+	}
+	Cat.prototype.type = '猫科动物';
+	Cat.prototype.eat = function(){console.log('吃老鼠')};
+	//生成实例；
+	var cat1 = new Cat("大毛","黄色");
+　	var cat2 = new Cat("二毛","黑色");
+	console.log(cat1.eat == cat2.eat);
+	
+	
+	//prototype模式的验证方法 判断，某个proptotype对象和某个实例之间的关系
+	//1. isPrototypeOf()
+		console.log(Cat.prototype.isPrototypeOf(cat1));
+		console.log(Cat.prototype.isPrototypeOf(cat2));
+	//2 hasOwnProperty()
+	//每个实例对象都有一个hasOwnProperty()方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。
+		console.log(cat1.hasOwnProperty("name")); // true
+　　	console.log(cat1.hasOwnProperty("type")); // false
+	//3 in  判断某个实例是否含有某个属性，不管是不是本地属性，还是原型属性；
+	console.log('name' in cat1);
+	console.log('type' in cat1);
+	// for in 不管是不是本地属性，还是原型属性;
+	for( prop in cat1 ){
+		console.log(cat1[prop])
+		console.log("cat1["+prop+"]="+cat1[prop]);
+	}
+	
+	</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>oop2（继承）</title>
+</head>
+<body>
+	<div id="div">
+		
+	</div>
+	<script>
+		//够造函数的继承
+		function Animal(){
+			this.species = '动物';
+		}
+		function Cat(name,color){
+			this.name = name;
+			this.color = color;
+		}
+		//将猫继承动物；
+		//第一种：
+//		function Cat(name,color){
+//			Animal.call(this);
+//			this.name = name;
+//			this.color = color;
+//		}
+//		var cat1 = new Cat('大毛','黑色');
+//		console.log(cat1);
+		
+		//第二种；
+//		Cat.prototype = new Animal();//Cat.prototype.constructor指向Animal
+//		Cat.prototype.constructor = Cat;
+//		var cat2 = new Cat('大毛','黄色');
+//		console.log(cat2);
+		var arr = [];
+		//每一个实例也有一个constructor属性，默认调用prototype对象的constructor属性
+		console.log(arr.constructor == Array);
+		
+		//第三种;直接继承
+//		function Animal(){};
+//		Animal.prototype.species = '动物';
+//		Cat.prototype = Animal.prototype;
+//		Cat.prototype.constructor = Cat;
+//		var cat3 = new Cat('大毛','黄色');
+//		console.log(cat3);
+//		//缺点；
+//		Cat.prototype.speak = 'sfd';
+//		var animal = new Animal();
+//		console.log(animal);
+		
+		//第四种;利用空对象中介
+		var F = function(){};
+		Animal.prototype.species = '动物';
+		F.prototype = Animal.prototype;
+		Cat.prototype = new F();
+		Cat.prototype.constructor = Cat;
+		
+		var cat4 = new Cat('大毛','黄色');
+		console.log(cat4);
+		
+		Cat.prototype.speak = 'sfd';
+		var animal = new Animal();
+		console.log(animal); //不会出现speak属性
+		console.log(Symbol())
+		console.log(typeof null);
+		var  s = '111';
+		var s2 = '111';
+		console.log(s == s2);
+	</script>
+</body>
+</html>

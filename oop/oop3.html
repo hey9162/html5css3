@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>oop3</title>
+</head>
+<body>
+	<script>
+		/* 工厂模式
+		 * 优点：抽象了创建的具体过程；
+		 * 缺点：没有解决对象识别的问题；（返回的始终是object类型；
+		 */
+		function createPerson(name,age,job){
+			var o = new Object;
+			o.name = name;
+			o.age = age;
+			o.job = job;
+			o.say = function(){
+				console.log(this.name);
+			}
+			return o;
+		}
+		var person1 = new createPerson('小王',20,'teacher');
+		var person2 = new createPerson('老王',40,'worker');
+		console.log(person1);
+		console.log(person2);
+		/* 构造函数模式（命名以首字母大写的方式）
+		 * 1.创建一个新对象
+		 * 2.将够造函数的作用域赋值给新对象（因此this指向这个新对象）
+		 * 3.执行够造函数中的代码（为新对象添加属性）
+		 * 4.返回新对象；
+		 */
+		function Person(name,age,job){
+			this.name = name;
+			this.age = age;
+			this.job = job;
+			this.sayName = function(){
+				console.log(this.name);
+			}
+		}
+		//做够造函数使用（使用new关键字创建新的对象）；
+		var person3 = new Person('小王',20,'teacher');
+		var person4 = new Person('老王',30,'worker');
+		console.log(person3.constructor == Person); //true
+		console.log(person3.constructor == Person); //true
+		//做普通函数使用（当做window的属性使用）；
+		//Person('小王',3,'teacher');
+		//console.log(window);
+		//window.sayName();
+		
+		
+		/*原则模式
+		 * 
+		 */
+		function Person(){
+			Person.prototype.name = '小王';
+			Person.prototype.age = 20;
+			Person.prototype.asyName = function(){
+				console.log(this.name);
+			}
+		}
+		var person5 = new Person();
+		var person6 = new Person();
+		console.log(person5.sayName == person6.sayName) //true
+	</script>
+</body>
+</html>
