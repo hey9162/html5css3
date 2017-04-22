@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta charset="UTF-8" />
+	<title>call</title>
+</head>
+<body>
+	<ul id="nav">
+		<li class="item1"><a href="">1</a></li>
+		<li class="item2"><a href="">2</a></li>
+		<li class="item3"><a href="">3</a></li>
+		<li class="item4"><a href="">4</a></li>
+	</ul>
+	<script>
+	//obj.call(thisObj, arg1, arg2, ...);
+	//obj.apply(thisObj, [arg1, arg2, ...]);
+	//使用call 和 apply 是为了动态改变this而出现的； 并且立即执行；
+	//两者作用一致，都是把obj(即this)绑定到thisObj，这时候thisObj具备了obj的属性和方法。
+	//或者说thisObj『继承』了obj的属性和方法。
+	//还有一种说法是叫对象冒充；『』
+	/*
+	 * call() 方法在使用一个指定的this值和若干个指定的参数值的前提下调用某个函数或方法.
+	 * 语法：fun.call(thisArg[, arg1[, arg2[, ...]]])
+	 * 参数：thisArg 在fun函数运行时指定的this值
+	 */
+	function add(j,k){
+		return j+k;
+	}
+	function sub(j,k){
+		return j-k;
+	}
+	console.log(add(5,3));
+	console.log(add.call(sub,5,3)); 
+	console.log(add.apply(sub, [5, 3]));
+	console.log('*****************************')
+	console.log(sub(5,3));
+	console.log(sub.call(add,5,3));
+	console.log(sub.apply(add, [5, 3]));
+	console.log('*****************************');
+	//当一个object没有某个方法，但是其他的有，我们可以借助call或apply用其它对象的方法来操作。
+	var dom = document.getElementsByClassName('item');
+	console.log(dom instanceof Array);
+	console.log(dom)
+	var domNodes = Array.call(document.getElementsByClassName('item'));
+	console.log(domNodes instanceof Array);
+	console.log(domNodes)
+	var o = {
+		m: function(){
+			var self = this;
+			console.log(this === o);
+			f();
+			function f(){
+				console.log(this === o);
+				console.log(self === o);
+			}
+		}
+	}
+	o.m()
+	//任何函数可以作为任何对象的方法来调用；（间接调用）；
+	//以对象o的方法来调用函数f()
+//	f.call(o);
+//	f.apply(o);
+	//在ECMA5 严格模式中，call()apply()第一个实参都会变成this的值；
+	function f(y){ return this.x + y}
+	var o = { x : 1};
+	var g = f.bind(o);  //bind不会立即执行；
+	console.log(g(2));
+	
+	
+	//1.使用call方法调用函数并且指定上下文的'this'
+	function greet() {
+	  var reply = [this.person, 'Is An Awesome', this.role].join(' ');
+	  console.log(reply);
+	  console.log(this);
+	}
+	greet();
+	var i = {
+	  person: 'Douglas Crockford', role: 'Javascript Developer'
+	};
+	greet.call(i);
+	
+	//2.使用call方法调用父构造函数
+	function Product(name, price) {
+	  this.name = name;
+	  this.price = price;
+	
+	  if (price < 0) {
+	    throw RangeError('Cannot create product ' + this.name + ' with a negative price');
+		}
+	}
+		
+	function Food(name, price) {
+	  Product.call(this, name, price); 
+	  this.category = 'food';
+	}
+		//等同于
+	function Food(name, price) { 
+	    this.name = name;
+	    this.price = price;
+	    if (price < 0) {
+	        throw RangeError('Cannot create product ' +
+	                this.name + ' with a negative price');
+	    }
+	    this.category = 'food'; 
+	    
+	}
+	
+		//function Toy 同上
+		function Toy(name, price) {
+		  Product.call(this, name, price);
+		  this.category = 'toy';
+		}
+		var cheese = new Food('feta', 5);
+		var fun = new Toy('robot', 40);
+		console.log(cheese);
+		console.log(fun);
+		
+		
+		//3.使用call方法调用匿名函数
+		var animals = [
+			  {species: 'Lion', name: 'King'},
+			  {species: 'Whale', name: 'Fail'}
+			];
+			
+			for (var i = 0; i < animals.length; i++) {
+			  (function (i) {
+			    this.print = function () {
+			      console.log('#' + i  + ' ' + this.species + ': ' + this.name); 
+			    }
+			    this.print();
+			  }).call(animals[i], i);
+			}
+	</script>
+</body>
+</html>
+<!--typeof 运算符把类型信息当作字符串返回。typeof 返回值有六种可能： "number," "string,"
+"boolean," "object," "function," 和 "undefined."--> 
+<!--call和apply的第一个实参是调用函数的母对象；-->

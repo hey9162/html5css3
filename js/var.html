@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>变量提升</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+</head>
+<body>
+	<select name="" id="" contextmenu="1212">
+		<option value="">1</option>
+		<option value="">11</option>
+		<option value="">11</option>
+		<option value="">11</option>
+		<option value="">11</option>
+		<option value="">1</option>
+		<option value="">11</option>
+		<option value="">11</option>
+		<option value="">11</option>
+		<option value="">11</option>
+		<option value="">1</option>
+		<option value="">11</option>
+		<option value="">11</option>
+		<option value="">11</option>
+		<option value="">11</option>
+	</select>
+	<script>
+		//变量提升：你可以引用稍后声明的变量而不会引发异常 ，提升后的变量将返回 undefined 值；
+		console.log(x === undefined); // logs "true"
+		var x = 3;
+		
+		var myvar = "my value";
+		(function() {
+		  console.log(myvar); // undefined
+		  var myvar = "local value";
+		})();
+		
+		/*var myvar = "my value";
+		(function() {
+			var myvar;
+		  console.log(myvar); // undefined
+		  myvar = "local value";
+		})();*/
+		
+		//函数提升：只有函数声明会被提升到顶部，而不包括函数表达式。
+		/*函数声明*/
+		foo(); // "bar"
+		function foo() {
+		  console.log("bar");
+		}
+		
+		/*函数表达式  表达式定义的函数，称为匿名函数。匿名函数没有函数提升*/
+		/*baz();
+		var baz = function() {
+		  console.log("bar2");
+		};*/
+		
+		var quote = "He read \"The Cremation of Sam McGee\" by R.W. Service.";
+		console.log(quote);
+	</script>
+</body>
+</html>

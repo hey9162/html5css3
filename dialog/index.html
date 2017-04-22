@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>回调函数</title>
+		<link rel="stylesheet" href="Alert.css"/>
+		<link rel="stylesheet" href="confirm.css"/>
+		<script src="Alert.js"></script>
+		<script src="confirm.js"></script>
+	</head>
+	<body>
+	<p>删除</p>
+	<p>删除</p>
+		<script>
+		var a = ['1','20','2','30'];
+		console.log(a.slice('1'));
+		var ps = document.querySelectorAll('p')
+		console.log(Array.call(ps));
+		Array.prototype.slice.call(ps).forEach(function (p) {
+			p.onclick = function () {
+				new Confirm('确定要删除此段落吗？',function () {
+					p.remove()
+					new Alert('已删除!').show()
+				},
+				function () {
+					new Alert('已取消删除').show()
+				}).show()
+			}
+		})
+//		var p = document.querySelectorAll('p')
+//		p[0].onclick = function () {
+//			var alt = new Alert('数据已经被删除', function () {
+//				console.log(this)
+//				console.log('弹出框上的消息是：'+ this.message)
+//				document.body.remove(this.p)
+//			})
+//			alt.show()
+//		}
+//		
+//		var con = new Confirm('确定要删除？',function(){
+//			console.log('你点击了确定')
+//		},
+//		function (){
+//			console.log('你点击了取消')
+//		} )
+//		con.show()
+		</script>
+	</body>
+</html>

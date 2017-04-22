@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>闭包</title>
+</head>
+<style type="text/css">
+	body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+	}
+	
+	h1 {
+	  font-size: 1.5em;
+	}
+	
+	h2 {
+	  font-size: 1.2em;
+	}
+</style>
+<body>
+		<p>Some paragraph text</p>
+    <h1>some heading 1 text</h1>
+    <h2>some heading 2 text</h2>
+    <a href="#" id="size-12">12</a>
+    <a href="#" id="size-14">14</a>
+    <a href="#" id="size-16">16</a>
+    <p id="help">Helpful notes will appear here</p>
+		<p>E-mail: <input type="text" id="email" name="email" data-val = 'email'></p>
+		<p>Name: <input type="text" id="name" name="name" data-val = 'name'></p>
+		<p>Age: <input type="text" id="age" name="age" data-val = 'age'></p>
+	<script>
+	/*
+	 * 闭包是指那些能够访问独立（自由）变量的函数（变量在本地使用，但定义在一个封闭的作用域中）
+	 * 换句话说，这些函数可以“记忆”它被创建时候的环境；
+	 */
+//	词法作用域
+		function init() {
+		  var name = "hey9162"; // name是被init创建的局部变量
+		  function displayName() { // displayName()是一个内部函数,
+		    console.log(name) // 它是一个使用在父函数中声明的变量的闭包
+		  }
+		  displayName();
+		}
+		init();
+		
+//		闭包
+		function makeFunc(){
+			var name = 'hey9162';
+			function displayName(){
+				console.log(name);
+			}
+			return displayName;
+		}
+		var myFunc = makeFunc();
+		myFunc();
+		
+		
+		function makeAdder(x) {
+		  return function(y) {
+		    return x + y;
+		  };
+		}
+		
+		var add5 = makeAdder(5);
+		var add10 = makeAdder(10);
+		
+		console.log(add5(2));  // 7
+		console.log(add10(2)); // 12
+		
+		//使用闭包
+		function makeSizer(size) {
+		  return function() {
+		    document.body.style.fontSize = size + 'px';
+		  };
+		}
+		
+		var size12 = makeSizer(12);
+		var size14 = makeSizer(14);
+		var size16 = makeSizer(16);
+		
+		document.getElementById('size-12').onclick = size12;
+		document.getElementById('size-14').onclick = size14;
+		document.getElementById('size-16').onclick = size16;
+		
+		//闭包模拟私有方法；
+		
+		var Counter = (function(){
+			var privateCounter = 0;
+			function changeBy(val){
+				privateCounter += val;
+			}
+			return {
+				increment: function(){
+					changeBy(1);
+				},
+				decrement: function(){
+					changeBy(-1);
+				},
+				value: function(){
+					return privateCounter;
+				}
+				
+			}
+		})();
+		//创建一个环境，让三个方法共享；
+		console.log(Counter.value()); /* logs 0 */
+		Counter.increment();
+		Counter.increment();
+		console.log(Counter.value()); /* logs 2 */
+		Counter.decrement();
+		console.log(Counter.value()); /* logs 1 */
+		
+		
+		//
+		var makeCounter = function(){
+			var privateCounter = 0;
+			function changeBy(val){
+				privateCounter += val;
+			}
+			return {
+				increment: function(){
+					changeBy(1);
+				},
+				decrement: function(){
+					changeBy(-1);
+				},
+				value: function(){
+					return privateCounter;
+				}
+			}
+		};
+		
+		var Counter1 = makeCounter();
+		var Counter2 = makeCounter();
+		console.log(Counter1.value()); /* logs 0 */
+		Counter1.increment();
+		Counter1.increment();
+		console.log(Counter1.value()); /* logs 2 */
+		Counter1.decrement();
+		console.log(Counter1.value()); /* logs 1 */
+		console.log(Counter2.value());  /* logs 0 */
+		/*请注意两个计数器是如何维护它们各自的独立性的。每次调用 makeCounter() 函数期间，其环境是不同的。
+		每次调用中， privateCounter 中含有不同的实例*/
+		
+		//循环中使用闭包；常范的错误：
+		/*function showHelp(help) {
+			console.log(help);
+		  document.getElementById('help').innerHTML = help;
+		}
+		function setupHelp() {
+		  var helpText = [
+		      {'id': 'email', 'help': 'Your e-mail address'},
+		      {'id': 'name', 'help': 'Your full name'},
+		      {'id': 'age', 'help': 'Your age (you must be over 16)'}
+		    ];
+		  for (var i = 0; i < helpText.length; i++) {
+		  	debugger;
+		    var item = helpText[i];
+		    debugger;
+		    document.getElementById(item.id).onfocus = function() {
+		    	debugger;
+		      showHelp(item.help);
+		    }
+		  }
+		}
+		setupHelp();*/
+		/*原因：赋给 onfocus是闭包（setupHelp）中的匿名函数而不是闭包对象；
+		在闭包（setupHelp）中一共创建了三个匿名函数，但是它们都共享同一个环境（item）。
+		在 onfocus 的回调被执行时，循环早已经完成，且此时 item 变量（由所有三个闭包所共享）
+		已经指向了 helpText 列表中的最后一项。*/
+		//解决方法
+		/*function showHelp(help) {
+		  document.getElementById('help').innerHTML = help;
+		}
+		
+		function makeHelpCallback(help) {
+			debugger;
+			console.log(help)
+		  return function() {
+		    showHelp(help);
+		  };
+		}
+		
+		function setupHelp() {
+		  var helpText = [
+		      {'id': 'email', 'help': 'Your e-mail address'},
+		      {'id': 'name', 'help': 'Your full name'},
+		      {'id': 'age', 'help': 'Your age (you must be over 16)'}
+		    ];
+		
+		  for (var i = 0; i < helpText.length; i++) {
+		    var item = helpText[i];
+		    debugger;
+		    document.getElementById(item.id).onfocus = makeHelpCallback(item.help);
+		  }
+		}
+		setupHelp();*/
+		
+		function setupHelp() {
+			var inp = document.getElementsByTagName('input');
+			console.log(inp)
+		  for (var i = 0; i < inp.length; i++) {
+		    var item = inp[i];
+		    item.onfocus = function(){
+		    	document.getElementById('help').innerHTML = this.getAttribute('data-val');
+		    }
+		  }
+		}
+		setupHelp();
+		//性能考量
+	</script>
+</body>
+</html>
+

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>for循环</title>
+</head>
+<body>
+	<script>
+	var n=0,m=0;
+	for(var i = 1; i < 10; i++){
+	        if(i == 4){
+	            continue; //跳出当前循环，并继续执行；
+	        }
+	        n++;
+	   }
+	console.log(n);
+	 for(var i = 1; i < 10; i++){
+	        if(i == 4){
+	            break; // 直接停止循环；
+	        }
+	        m++;
+	    }
+	console.log(m);
+	</script>
+</body>
+</html>

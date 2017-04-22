@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>while</title>
+	</head>
+	<body>
+		<script>
+		/*
+		 * While 循环会在指定条件为真时循环执行代码块。
+		 */
+			var  a = 1, b = 0;
+			while( a < 10){
+				if( a % 2 == 0){
+					if( b % 2 == 0){
+						console.log(b)
+					}
+					console.log(a);
+					b++;
+				}
+				a++;
+			}
+			
+			/*do while
+			 * 
+			 * 先执行循环体，后判断条件是否为真；
+			 */
+			do{
+				if( a % 2 == 0){
+					if( b % 2 == 0){
+						console.log(b)
+					}
+					console.log(a);
+					b++;
+				}
+				a++;
+			} while( a < 10);
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>return</title>
+	</head>
+
+	<body>
+		<a href="#" onclick="first()">return</a>
+		<a href="#" onclick="console.log(second())">return obj</a>
+		<a href="#" onclick="return three()">return false</a>
+		<script type="text/javascript">
+			//return 在函数中使用return 会直接将改函数终止执行,跳转到函数结束位置 ；
+			//不会阻止时间的默认行为；
+			function first() {
+				if(2 > 1) {
+					debugger
+					return;
+					debugger;
+					console.log(1)
+				}
+				console.log(1);
+			}
+			//return 对象，直接返回改对象 ；不会阻止时间的默认行为；
+			function second() {
+				if(2 > 1) {
+					return {
+						name: 'hey'
+					}
+				}
+				alert(1); //不会执行；
+			}
+
+			function three() {
+				if(2 > 1) {
+					return false;
+				}
+				return false;
+			}
+
+			function fors() {
+				for(var i = 0; i < 10; i++) {
+					if(i < 5) {
+						console.log(i);
+					}
+				}
+			}
+			fors();
+		</script>
+	</body>
+
+</html>

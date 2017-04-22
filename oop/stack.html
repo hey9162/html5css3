@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>栈</title>
+</head>
+<style>
+</style>
+<body>
+	
+	<script>
+		  function setName(obj) {
+				obj.name = 'zhang';  
+				obj = new Object();  
+				obj.name = 'Greg';
+			}
+			var obj = new Object();  
+			setName(obj);  
+			console.log(obj.name);
+		//这里有个概念，栈和堆，栈是用来存值得，堆是用来存引用的
+		var obj = {
+			name: 'wang'
+		}
+		var obj = {
+			name: 'zhang'
+		}
+		console.log(obj.name);
+		
+		var o1 = new Object;
+		o1.name = 'hey';
+		var o2 = new Object;
+		o2.name = 'hey';
+		console.log(o1 == o2);
+		var str1 = 'asdf';
+		var str2 = 'asdf';
+		console.log(str1 === str2);
+		var person;
+		var person2;
+		console.log(person == person2);
+		console.log(null === null);
+	</script>
+</body>
+</html>

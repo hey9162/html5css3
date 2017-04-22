@@ -24,7 +24,7 @@
 				alerts: function(text,action){
 					var html = '<div id="alert-model"><div style="width: 100%;height: 100%; position: absolute; top: 0; left: 0; background-color: black; font-weight: bold; opacity: 0.3; z-index: 99999999;"></div><div style="width: 15rem;height: 7rem; background-color: #fff; border: 1px solid sliver; border-radius: 0.5rem; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; z-index: 100000000;"><div style="text-align: center;margin-top: 1rem; font-size: 0.75rem; color: #444;">'+text+'</div><div style="height: 2.25rem;width: 100%; position: absolute; bottom: 0; border-top: 1px solid #ccc; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem;"><div id="alert-confirm" style="height: 2.25rem;width: 98%; margin: 0 auto; text-align: center; line-height: 2.25rem; border-radius: 0.5rem; font-size: 0.75rem; cursor: pointer;">确定</div></div></div></div>'
     			var el = document.getElementById('alert-model');
-    			if(el){
+    			if(el){ 
 						return;
 					}
     			document.body.innerHTML += html;
@@ -56,15 +56,9 @@
 				}
 			}
 			var dialog = new dialogObject();
-//			dialog.alerts('jhjkh',function(){
-//				console.log(111);
-//				dialog.close();
-//			});
-			dialog.confirms('sada',function(){
-				console.log('您点击了取消！')
-			},function(){
-				console.log('您点击了确定！')
-			});
+			dialog.alerts('sfdf',function(){
+				console.log('您点击了确定')
+			})
 			//校验对象（姓名、邮箱、密码、手机号、QQ号）
 			var checkObject = function(){};
 			checkObject.prototype = {
@@ -118,13 +112,16 @@
 			var name = "张三";
 			var email = "1101192991@qq.cn";
 			var pwd = '123451l';
-			var phone = '13569874563';
-			var qq = '1101192991'
+			var phone = '135698745631';
+			var qq = '1101192991';
 			var box = check.checkName(name)
 							.checkEmail(email)
 							.checkPassword(pwd)
 							.checkQq(qq)
 							.checkPhone(phone);
+							
+			//return return false;
+			
 		</script>
 	</body>
 </html>

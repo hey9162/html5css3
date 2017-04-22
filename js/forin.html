@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>forin</title>
+</head>
+<body>
+	<script>
+		var data = {
+			name : 'hey',
+			age : '3',
+			arr : ['1','2','3']
+		}
+		for(var i in data){
+			console.log(data[i]);
+		}
+		/*
+		 * forEach这是数组的方法；
+		 */
+		var arr = ['书法','爱好','公司','上班'];
+		
+		arr.forEach(function(data,index){
+			console.log(data +  '的索引是' + index)
+		});
+		/*
+		 * 下面这是es6的语法；
+		 * 不建议使用；
+		 */
+		let arrs = [3, 5, 7];
+		arrs.foo = "hello";
+		for (let i in arrs) {
+		   console.log(i); //  "0", "1", "2", "foo"
+		}
+		for (let i of arrs) {
+		   console.log(i); //  "3", "5", "7" // 注意这里没有 hello
+		}
+	</script>
+</body>
+</html>
